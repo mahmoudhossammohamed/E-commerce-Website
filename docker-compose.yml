@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  userauth:
+    build: ./Auth-Service
+    ports:
+      - "5000:5000"
+    environment:
+      mongoDB_URL: mongo_db:/data/db
+      redisDB_URL: redis_db:/data/db
+
+  inventory:
+    build: ./Inventory-Service
+    ports:
+      - "7000:7000"
+    environment:
+      mongoDB_URL: mongo_db:/data/db
+      redisDB_URL: redis_db:/data/db
+
+  web:
+    build: ./frontendserver
+    ports:
+      - "3000:3000"
+
+  mongo_db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_db:/data/db
+
+  redis_db:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_db:/data/db
+
+volumes:
+  Ninety-Ninth:
